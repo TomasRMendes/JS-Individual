@@ -152,14 +152,14 @@ namespace StarterAssets
 			UI.UpdateCD(SecondaryCooldown);
 		}
 
-        private void FixedUpdate()
-        {
+		private void FixedUpdate()
+		{
 			JumpAndGravity();
 			GroundedCheck();
 		}
 
 
-        private void LateUpdate()
+        	private void LateUpdate()
 		{
 			CameraRotation();
 		}
@@ -172,9 +172,9 @@ namespace StarterAssets
 			Grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers, QueryTriggerInteraction.Ignore);
 			
 			if(before != Grounded)
-            {
+            		{
 				animator.SetBool(IsGroundedHash, Grounded);
-            }
+            		}
 		}
 
 		private void CameraRotation()
@@ -199,9 +199,12 @@ namespace StarterAssets
 			}
 		}
 
+		
+		
 		private void Move()
 		{
-            if (warping > 0) {
+            		if (warping > 0) 
+			{
 				warping -= Time.deltaTime;
 				if (warping < 0) warping = 0;
 				return;
@@ -239,7 +242,7 @@ namespace StarterAssets
 
 
 			if(Grounded && velocity.magnitude > MaxVelocity)
-            {
+            		{
 				velocity.Normalize();
 				velocity *= MaxVelocity;
 			}
@@ -354,14 +357,14 @@ namespace StarterAssets
 
 
 		public void CheckCooldowns()
-        {
+       		{
 			if (PrimaryCooldown > 0)
 			{
 				PrimaryCooldown -= Time.deltaTime;
 				if (PrimaryCooldown < 0) PrimaryCooldown = 0;
 			}
 			if (SecondaryCooldown > 0)
-            {
+            		{
 				SecondaryCooldown -= Time.deltaTime;
 				if (SecondaryCooldown < 0) SecondaryCooldown = 0;
 			}
@@ -370,7 +373,7 @@ namespace StarterAssets
 
 
 		public void CheckWeaponFire()
-        {
+        	{
 
 			if (busy <= 0)
 			{
@@ -414,14 +417,14 @@ namespace StarterAssets
 
 
 		public void ChangeWeapon()
-        {
+        	{
 			Weapon = Hand.transform.GetChild(Hand.transform.childCount - 1).gameObject;
-        }
+        	}
 
 
 
 		public void Animate()
-        {
+        	{
 
 			if(_input.move == Vector2.zero) animator.SetBool(IsIdleHash, true);
 			else animator.SetBool(IsIdleHash, false);
@@ -432,10 +435,10 @@ namespace StarterAssets
 		}
 
 		public void Warp()
-        {
+        	{
 
 			if(_input.warp > 0 && _input.warp < 5)
-            {
+            		{
 				warping = 0.05f;
 
 				GameObject warp = GameObject.FindGameObjectsWithTag("WarpPoints")[_input.warp - 1];
@@ -443,68 +446,68 @@ namespace StarterAssets
 				this.transform.position = warp.transform.position;
 
 				_input.warp = 0;
-            }
+           	 	}
 			if(_input.warp == 5)
-            {
+            		{
 				GrabBomb();
 				_input.warp = 0;
-            }
+            		}
 
 
-        }
+        	}
 
 
 
 		public void CheckRally()
-        {
+        	{
 			if(Health <= 0)
-            {
+           		{
 				SceneManager.LoadScene(3);
-            }
+            		}
 
 
 			if (Rally == Health) return;
 			if (Rally < Health)
-            {
+            		{
 				Rally = Health;
 				return;
-            }
+            		}
 
 			Rally -= Time.deltaTime * RallyDecay;
 			UI.UpdateRally(Rally);
 
-        }
+        		}
 
 		public void Damage(float dmg)
-        {
+        	{
 			Health -= dmg;
 			UI.UpdateHealth(Health);
-        }
+        	}
 
 		public void GrabBomb()
-        {
+        	{
 			bombs++;
 			UI.AddBomb();
-        }
+        	}
 
 
 		public void OnHitEffects(float damage)
-        {
+        	{
 			ProcRally(damage);
 
-        }
+        	}
 
 		public void ProcRally(float damage)
-        {
+        	{
 			if(Health < Rally)
-            {
+            		{
 				Health += damage * RallyMult;
 				if (Health > Rally) Health = Rally;
 
 				UI.UpdateHealth(Health);
 
-            }
-        }
+            		}
+        	}
 
 
 
